@@ -4,13 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.jin.sunflower.feature.main.MainScreen
+import com.jin.sunflower.feature.mygarden.MyGardenScreen
+import com.jin.sunflower.feature.Screens
+import com.jin.sunflower.feature.plantdetail.PlantDetailScreen
+import com.jin.sunflower.feature.plantlist.PlantListScreen
 import com.jin.sunflower.ui.theme.SunflowerTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +21,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SunflowerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavigator()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun AppNavigator() {
+    val navController = rememberNavController()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SunflowerTheme {
-        Greeting("Android")
+    NavHost(navController = navController, startDestination = Screens.MAIN_SCREEN.route) {
+        composable(Screens.MAIN_SCREEN.route) { MainScreen(navController) }
+        composable(Screens.MY_GARDEN_SCREEN.route) { MyGardenScreen(navController) }
+        composable(Screens.PLANT_LIST_SCREEN.route) { PlantListScreen(navController) }
+        composable(Screens.PLANT_DETAIL_SCREEN.route) { PlantDetailScreen(navController) }
     }
 }
