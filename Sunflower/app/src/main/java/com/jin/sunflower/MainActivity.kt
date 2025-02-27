@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jin.sunflower.feature.Screens
 import com.jin.sunflower.feature.main.MainScreen
 import com.jin.sunflower.feature.mygarden.MyGardenScreen
-import com.jin.sunflower.feature.Screens
 import com.jin.sunflower.feature.plantdetail.PlantDetailScreen
 import com.jin.sunflower.feature.plantlist.PlantListScreen
 import com.jin.sunflower.ui.theme.SunflowerTheme
