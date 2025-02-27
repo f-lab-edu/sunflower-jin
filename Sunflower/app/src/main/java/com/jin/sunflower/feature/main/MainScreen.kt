@@ -9,13 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.jin.sunflower.feature.Screens
 import com.jin.sunflower.ui.theme.SunflowerTheme
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(navController: NavController, viewModel: MainViewModel = viewModel()) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Row(modifier = Modifier.padding(innerPadding)) {
             Button(onClick = {
