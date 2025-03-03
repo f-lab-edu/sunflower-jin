@@ -57,7 +57,12 @@ fun PlantListItem(plant: Plant) {
             contentDescription = "plant image",
             contentScale = ContentScale.Crop
         )
-        Text(modifier = Modifier.padding(vertical = 10.dp), text = plant.name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Text(
+            modifier = Modifier.padding(vertical = 10.dp),
+            text = plant.name,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
@@ -80,7 +85,7 @@ fun PlantListItemPreview() {
                 name = "Apple",
                 description = "Apple",
                 growZoneNumber = 2713,
-                wateringInterval = 3073,
+                wateringIntervalInDays = 3073,
                 imageUrl = "Apple image url",
                 addTimestamp = System.currentTimeMillis(),
                 lastWateredTimestamp = System.currentTimeMillis(),

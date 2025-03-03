@@ -5,7 +5,7 @@ data class Plant(
     val name: String,
     val description: String,
     val growZoneNumber: Int,
-    val wateringInterval: Int,
+    val wateringIntervalInDays: Int,
     val imageUrl: String,
     val addTimestamp: Long,
     var lastWateredTimestamp: Long

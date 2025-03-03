@@ -16,7 +16,7 @@ class PlantDetailViewModel : ViewModel() {
                 "Trees and fruit are prone to a number of fungal, bacterial and pest problems, which can be controlled by a number of organic and non-organic means. In 2010, the fruit's genome was sequenced as part of research on disease control and selective breeding in apple production.\n" +
                 "Worldwide production of apples in 2014 was 84.6 million tonnes, with China accounting for 48% of the total.",
         growZoneNumber = 1,
-        wateringInterval = 30,
+        wateringIntervalInDays = 30,
         imageUrl = "https://picsum.photos/300/200?random=1",
         addTimestamp = System.currentTimeMillis(),
         lastWateredTimestamp = System.currentTimeMillis(),

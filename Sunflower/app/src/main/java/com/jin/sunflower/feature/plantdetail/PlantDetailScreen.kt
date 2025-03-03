@@ -57,7 +57,7 @@ fun PlantDetailScreen(navController: NavController, viewModel: PlantDetailViewMo
             textAlign = TextAlign.Center
         )
         Text(
-            text = "every ${plantDetail.wateringInterval} days",
+            text = "every ${plantDetail.wateringIntervalInDays} days",
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )

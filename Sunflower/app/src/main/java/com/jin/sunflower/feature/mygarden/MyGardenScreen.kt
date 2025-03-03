@@ -72,7 +72,7 @@ fun GardenListItem(plant: Plant) {
         // 마지막 물 준날 + 물 주어야 하는 빈도
         Text(text = "Last Watered")
         Text(text = plant.lastWateredTimestamp.formatAsDate())
-        Text(text = "water in ${plant.wateringInterval} days.")
+        Text(text = "water in ${plant.wateringIntervalInDays} days.")
     }
 }
 
@@ -94,7 +94,7 @@ fun GardenListItemPreview() {
                 name = "Apple",
                 description = "Apple",
                 growZoneNumber = 2713,
-                wateringInterval = 3073,
+                wateringIntervalInDays = 3073,
                 imageUrl = "https://picsum.photos/300/200?random=1",
                 addTimestamp = System.currentTimeMillis(),
                 lastWateredTimestamp = System.currentTimeMillis(),
