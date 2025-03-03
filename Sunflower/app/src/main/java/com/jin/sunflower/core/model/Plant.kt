@@ -1,0 +1,12 @@
+package com.jin.sunflower.core.model
+
+data class Plant(
+    val id: Int,
+    val name: String,
+    val description: String,
+    val growZoneNumber: Int,
+    val wateringIntervalInDays: Int,
+    val imageUrl: String,
+    val addTimestamp: Long,
+    var lastWateredTimestamp: Long
+)
