@@ -83,7 +83,9 @@ fun PlantListItemPreview() {
                 description = "Apple",
                 growZoneNumber = 2713,
                 wateringInterval = 3073,
-                imageUrl = "Apple image url"
+                imageUrl = "Apple image url",
+                addTimestamp = System.currentTimeMillis(),
+                lastWateredTimestamp = System.currentTimeMillis(),
             )
         )
     }

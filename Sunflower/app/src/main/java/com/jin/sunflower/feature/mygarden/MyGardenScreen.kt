@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.jin.sunflower.core.extensions.formatAsDate
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
 
@@ -65,12 +66,12 @@ fun GardenListItem(plant: Plant) {
         Spacer(Modifier.height(20.dp))
         // 추가된 날짜
         Text(text = "Planted")
-        Text(text = "20250301")
+        Text(text = plant.addTimestamp.formatAsDate())
 
         Spacer(Modifier.height(20.dp))
         // 마지막 물 준날 + 물 주어야 하는 빈도
         Text(text = "Last Watered")
-        Text(text = "20250301")
+        Text(text = plant.lastWateredTimestamp.formatAsDate())
         Text(text = "water in ${plant.wateringInterval} days.")
     }
 }
@@ -94,7 +95,9 @@ fun GardenListItemPreview() {
                 description = "Apple",
                 growZoneNumber = 2713,
                 wateringInterval = 3073,
-                imageUrl = "Apple image url"
+                imageUrl = "Apple image url",
+                addTimestamp = System.currentTimeMillis(),
+                lastWateredTimestamp = System.currentTimeMillis(),
             )
         )
     }

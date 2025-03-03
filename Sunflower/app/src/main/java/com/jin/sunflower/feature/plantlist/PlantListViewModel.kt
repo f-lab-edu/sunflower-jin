@@ -14,7 +14,9 @@ class PlantListViewModel : ViewModel() {
             description = "Apple",
             growZoneNumber = 1,
             wateringInterval = 1,
-            imageUrl = "Apple Image Url"
+            imageUrl = "Apple Image Url",
+            addTimestamp = System.currentTimeMillis(),
+            lastWateredTimestamp = System.currentTimeMillis(),
         ),
         Plant(
             id = 2,
@@ -22,7 +24,9 @@ class PlantListViewModel : ViewModel() {
             description = "Beet",
             growZoneNumber = 1,
             wateringInterval = 1,
-            imageUrl = "Beet Image Url"
+            imageUrl = "Beet Image Url",
+            addTimestamp = System.currentTimeMillis(),
+            lastWateredTimestamp = System.currentTimeMillis(),
         ),
         Plant(
             id = 3,
@@ -30,10 +34,12 @@ class PlantListViewModel : ViewModel() {
             description = "Cilantro",
             growZoneNumber = 1,
             wateringInterval = 1,
-            imageUrl = "Cilantro Image Url"
+            imageUrl = "Cilantro Image Url",
+            addTimestamp = System.currentTimeMillis(),
+            lastWateredTimestamp = System.currentTimeMillis(),
         )
     )
-    
+
     private val _plantList = MutableStateFlow(samplePlantList)
     val plantList: StateFlow<List<Plant>> = _plantList.asStateFlow()
 }

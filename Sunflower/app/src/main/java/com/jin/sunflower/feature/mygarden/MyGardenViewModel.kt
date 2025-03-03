@@ -13,7 +13,9 @@ class MyGardenViewModel : ViewModel() {
             description = "Apple",
             growZoneNumber = 2,
             wateringInterval = 3,
-            imageUrl = "Apple Image Url"
+            imageUrl = "Apple Image Url",
+            addTimestamp = System.currentTimeMillis(),
+            lastWateredTimestamp = System.currentTimeMillis(),
         )
     )
 

@@ -17,7 +17,9 @@ class PlantDetailViewModel : ViewModel() {
                 "Worldwide production of apples in 2014 was 84.6 million tonnes, with China accounting for 48% of the total.",
         growZoneNumber = 1,
         wateringInterval = 30,
-        imageUrl = "Apple Image Url"
+        imageUrl = "Apple Image Url",
+        addTimestamp = System.currentTimeMillis(),
+        lastWateredTimestamp = System.currentTimeMillis(),
     )
 
     private val _plantDetail = MutableStateFlow(samplePlantDetail)
