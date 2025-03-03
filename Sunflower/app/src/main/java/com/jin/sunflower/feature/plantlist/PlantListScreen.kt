@@ -1,7 +1,5 @@
 package com.jin.sunflower.feature.plantlist
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
 
@@ -50,16 +49,15 @@ fun PlantListItem(plant: Plant) {
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
+        AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(color = Color.Gray),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = plant.imageUrl)
-        }
-        Text(text = plant.name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                .height(100.dp),
+            model = plant.imageUrl,
+            contentDescription = "plant image",
+            contentScale = ContentScale.Crop
+        )
+        Text(modifier = Modifier.padding(vertical = 10.dp), text = plant.name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
     }
 }
 

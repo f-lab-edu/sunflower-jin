@@ -1,7 +1,5 @@
 package com.jin.sunflower.feature.mygarden
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.jin.sunflower.core.extensions.formatAsDate
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
@@ -52,15 +51,16 @@ fun GardenListItem(plant: Plant) {
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
+        AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(color = Color.Gray),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = plant.imageUrl)
-        }
+                .height(100.dp),
+            model = plant.imageUrl,
+            contentDescription = "plant Image",
+            contentScale = ContentScale.Crop
+        )
+        Spacer(Modifier.height(20.dp))
+
         Text(text = plant.name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
 
         Spacer(Modifier.height(20.dp))
@@ -95,7 +95,7 @@ fun GardenListItemPreview() {
                 description = "Apple",
                 growZoneNumber = 2713,
                 wateringInterval = 3073,
-                imageUrl = "Apple image url",
+                imageUrl = "https://picsum.photos/300/200?random=1",
                 addTimestamp = System.currentTimeMillis(),
                 lastWateredTimestamp = System.currentTimeMillis(),
             )

@@ -13,7 +13,7 @@ class MyGardenViewModel : ViewModel() {
             description = "Apple",
             growZoneNumber = 2,
             wateringInterval = 3,
-            imageUrl = "Apple Image Url",
+            imageUrl = "https://picsum.photos/300/200?random=1", // todo : 추후 Unsplash 로 변경될 예정.
             addTimestamp = System.currentTimeMillis(),
             lastWateredTimestamp = System.currentTimeMillis(),
         )
