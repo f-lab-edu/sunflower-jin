@@ -1,5 +1,7 @@
 package com.jin.sunflower.core.model
 
+import java.time.Instant
+
 data class Plant(
     val id: Int,
     val name: String,
@@ -7,6 +9,6 @@ data class Plant(
     val growZoneNumber: Int,
     val wateringIntervalInDays: Int,
     val imageUrl: String,
-    val addTimestamp: Long,
-    var lastWateredTimestamp: Long
+    val addedAt: Instant,
+    var lastWateredAt: Instant
 )

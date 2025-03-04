@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
+import java.time.Instant
 
 @Composable
 fun PlantListScreen(navController: NavController, viewModel: PlantListViewModel = viewModel()) {
@@ -87,8 +88,8 @@ fun PlantListItemPreview() {
                 growZoneNumber = 2713,
                 wateringIntervalInDays = 3073,
                 imageUrl = "Apple image url",
-                addTimestamp = System.currentTimeMillis(),
-                lastWateredTimestamp = System.currentTimeMillis(),
+                addedAt = Instant.now(),
+                lastWateredAt = Instant.now(),
             )
         )
     }

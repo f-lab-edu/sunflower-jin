@@ -28,6 +28,7 @@ import coil.compose.AsyncImage
 import com.jin.sunflower.core.extensions.formatAsDate
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
+import java.time.Instant
 
 @Composable
 fun MyGardenScreen(navController: NavController, viewModel: MyGardenViewModel = viewModel()) {
@@ -66,12 +67,12 @@ fun GardenListItem(plant: Plant) {
         Spacer(Modifier.height(20.dp))
         // 추가된 날짜
         Text(text = "Planted")
-        Text(text = plant.addTimestamp.formatAsDate())
+        Text(text = plant.addedAt.formatAsDate())
 
         Spacer(Modifier.height(20.dp))
         // 마지막 물 준날 + 물 주어야 하는 빈도
         Text(text = "Last Watered")
-        Text(text = plant.lastWateredTimestamp.formatAsDate())
+        Text(text = plant.lastWateredAt.formatAsDate())
         Text(text = "water in ${plant.wateringIntervalInDays} days.")
     }
 }
@@ -96,8 +97,8 @@ fun GardenListItemPreview() {
                 growZoneNumber = 2713,
                 wateringIntervalInDays = 3073,
                 imageUrl = "https://picsum.photos/300/200?random=1",
-                addTimestamp = System.currentTimeMillis(),
-                lastWateredTimestamp = System.currentTimeMillis(),
+                addedAt = Instant.now(),
+                lastWateredAt = Instant.now(),
             )
         )
     }

@@ -5,6 +5,7 @@ import com.jin.sunflower.core.model.Plant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.time.Instant
 
 class PlantListViewModel : ViewModel() {
     private val samplePlantList = listOf(
@@ -15,8 +16,8 @@ class PlantListViewModel : ViewModel() {
             growZoneNumber = 1,
             wateringIntervalInDays = 1,
             imageUrl = "https://picsum.photos/300/200?random=1",
-            addTimestamp = System.currentTimeMillis(),
-            lastWateredTimestamp = System.currentTimeMillis(),
+            addedAt = Instant.now(),
+            lastWateredAt = Instant.now(),
         ),
         Plant(
             id = 2,
@@ -25,8 +26,8 @@ class PlantListViewModel : ViewModel() {
             growZoneNumber = 1,
             wateringIntervalInDays = 1,
             imageUrl = "https://picsum.photos/300/200?random=1",
-            addTimestamp = System.currentTimeMillis(),
-            lastWateredTimestamp = System.currentTimeMillis(),
+            addedAt = Instant.now(),
+            lastWateredAt = Instant.now(),
         ),
         Plant(
             id = 3,
@@ -35,8 +36,8 @@ class PlantListViewModel : ViewModel() {
             growZoneNumber = 1,
             wateringIntervalInDays = 1,
             imageUrl = "https://picsum.photos/300/200?random=1",
-            addTimestamp = System.currentTimeMillis(),
-            lastWateredTimestamp = System.currentTimeMillis(),
+            addedAt = Instant.now(),
+            lastWateredAt = Instant.now(),
         )
     )
 

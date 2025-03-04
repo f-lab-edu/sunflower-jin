@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.jin.sunflower.core.model.Plant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.time.Instant
 
 class MyGardenViewModel : ViewModel() {
     private val sampleGardenList = listOf(
@@ -14,8 +15,8 @@ class MyGardenViewModel : ViewModel() {
             growZoneNumber = 2,
             wateringIntervalInDays = 3,
             imageUrl = "https://picsum.photos/300/200?random=1", // todo : 추후 Unsplash 로 변경될 예정.
-            addTimestamp = System.currentTimeMillis(),
-            lastWateredTimestamp = System.currentTimeMillis(),
+            addedAt = Instant.now(),
+            lastWateredAt = Instant.now(),
         )
     )
 

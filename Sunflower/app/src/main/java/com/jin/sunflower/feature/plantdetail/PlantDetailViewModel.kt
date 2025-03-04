@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.jin.sunflower.core.model.Plant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.time.Instant
 
 class PlantDetailViewModel : ViewModel() {
     private val samplePlantDetail = Plant(
@@ -22,8 +23,8 @@ class PlantDetailViewModel : ViewModel() {
         growZoneNumber = 1,
         wateringIntervalInDays = 30,
         imageUrl = "https://picsum.photos/300/200?random=1",
-        addTimestamp = System.currentTimeMillis(),
-        lastWateredTimestamp = System.currentTimeMillis(),
+        addedAt = Instant.now(),
+        lastWateredAt = Instant.now(),
     )
 
     private val _plantDetail = MutableStateFlow(samplePlantDetail)
