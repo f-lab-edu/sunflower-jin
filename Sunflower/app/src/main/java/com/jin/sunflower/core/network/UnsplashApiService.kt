@@ -8,7 +8,7 @@ interface UnsplashApiService {
     @GET("photos/random")
     suspend fun getRandomImage(
         @Query("client_id") clientId: String,
-        @Query("query") query: String = "nature",
-        @Query("orientation") orientation: String = "landscape",
+        @Query("query") query: String,
+        @Query("orientation") orientation: String,
     ): UnsplashResponse
 }
