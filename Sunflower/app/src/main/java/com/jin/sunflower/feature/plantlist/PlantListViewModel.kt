@@ -15,7 +15,7 @@ import java.time.Instant
 
 class PlantListViewModel(private val repository: PlantRepository) : ViewModel() {
 
-    private val _plantList = MutableStateFlow<List<Plant>>(emptyList())
+    private val _plantList = MutableStateFlow(emptyList<Plant>())
     val plantList: StateFlow<List<Plant>> = _plantList.asStateFlow()
 
     fun loadPlantList() {
@@ -57,14 +57,12 @@ class PlantListViewModel(private val repository: PlantRepository) : ViewModel() 
         }
     }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-                if (modelClass.isAssignableFrom(PlantListViewModel::class.java)) {
-                    @Suppress("UNCHECKED_CAST") return PlantListViewModel(DataFactory.providePlantsRepository()) as T
-                }
-                throw IllegalArgumentException("Unknown ViewModel class")
+    companion object Factory : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+            if (modelClass.isAssignableFrom(PlantListViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST") return PlantListViewModel(DataFactory.providePlantsRepository()) as T
             }
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }
