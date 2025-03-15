@@ -1,8 +1,12 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
+
+
 
 android {
     namespace = "com.jin.sunflower"
@@ -16,6 +20,15 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = Properties().apply {
+            load(rootProject.file("local.properties").inputStream())
+        }
+        
+        val unsplashApiKey: String = localProperties.getProperty("UNSPLASH_API_KEY", "")
+        defaultConfig {
+            buildConfigField("String", "UNSPLASH_API_KEY", "\"$unsplashApiKey\"")
+        }
     }
 
     buildTypes {
@@ -36,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -60,4 +74,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.coil.compose)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }

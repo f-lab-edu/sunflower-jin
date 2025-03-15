@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,8 +30,15 @@ import com.jin.sunflower.ui.theme.SunflowerTheme
 import java.time.Instant
 
 @Composable
-fun PlantListScreen(navController: NavController, viewModel: PlantListViewModel = viewModel()) {
+fun PlantListScreen(
+    navController: NavController,
+    viewModel: PlantListViewModel = viewModel(factory = PlantListViewModel.Factory)
+) {
     val plantList by viewModel.plantList.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadPlantList()
+    }
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
