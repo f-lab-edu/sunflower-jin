@@ -1,6 +1,6 @@
-package com.jin.sunflower.core.domain.unsplash
+package com.jin.sunflower.core.data.unsplash
 
-import com.jin.sunflower.core.domain.RetrofitClient
+import com.jin.sunflower.core.data.RetrofitClient
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,7 +13,6 @@ interface UnsplashService {
     ): UnsplashResponse
 
     companion object {
-        val unsplashApi: UnsplashService =
-            RetrofitClient.createService("https://api.unsplash.com/", UnsplashService::class.java)
+        val unsplashApi: UnsplashService = RetrofitClient.createService("https://api.unsplash.com/")
     }
 }

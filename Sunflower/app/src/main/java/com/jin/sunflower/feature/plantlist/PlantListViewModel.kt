@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.jin.sunflower.core.data.repository.PlantRepositoryImpl
 import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
+import com.jin.sunflower.core.data.unsplash.UnsplashService
 import com.jin.sunflower.core.data.wikipedia.WikipediaDataSource
-import com.jin.sunflower.core.domain.unsplash.UnsplashService
+import com.jin.sunflower.core.data.wikipedia.WikipediaService
 import com.jin.sunflower.core.domain.usecase.GetPlantListUseCase
-import com.jin.sunflower.core.domain.wikipedia.WikipediaService
 import com.jin.sunflower.core.model.Plant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

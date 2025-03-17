@@ -1,4 +1,4 @@
-package com.jin.sunflower.core.domain.unsplash
+package com.jin.sunflower.core.data.unsplash
 
 import com.google.gson.annotations.SerializedName
 
