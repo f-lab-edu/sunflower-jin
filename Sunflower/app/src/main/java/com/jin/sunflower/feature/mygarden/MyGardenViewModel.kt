@@ -9,7 +9,6 @@ import java.time.Instant
 class MyGardenViewModel : ViewModel() {
     private val sampleGardenList = listOf(
         Plant(
-            id = 1,
             name = "Apple",
             description = "Apple",
             growZoneNumber = 2,

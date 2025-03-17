@@ -15,66 +15,30 @@ class PlantRepositoryImpl(
     // -> viewModel 은 view 에 데이터가 전달되는 다리역활이기때문.
     // -> 데이터가 가공되는 곳은 여기임으로 mockData 도 여기에 선언.
 
-    private val plantList = listOf(
-        Plant(
-            id = 1,
-            name = "Apple",
-            description = "",
-            growZoneNumber = 3,
-            wateringIntervalInDays = 30,
-            imageUrl = "",
-            addedAt = Instant.now(),
-            lastWateredAt = Instant.now(),
-        ),
-        Plant(
-            id = 2,
-            name = "Avocado",
-            description = "",
-            growZoneNumber = 3,
-            wateringIntervalInDays = 30,
-            imageUrl = "",
-            addedAt = Instant.now(),
-            lastWateredAt = Instant.now(),
-        ),
-        Plant(
-            id = 3,
-            name = "Beet",
-            description = "",
-            growZoneNumber = 3,
-            wateringIntervalInDays = 30,
-            imageUrl = "",
-            addedAt = Instant.now(),
-            lastWateredAt = Instant.now(),
-        ),
-        Plant(
-            id = 4,
-            name = "Eggplant",
-            description = "",
-            growZoneNumber = 3,
-            wateringIntervalInDays = 30,
-            imageUrl = "",
-            addedAt = Instant.now(),
-            lastWateredAt = Instant.now(),
-        )
-    )
+    private val plantNameList = listOf("Apple", "Avocado", "Beet", "Eggplant")
 
-    override suspend fun loadPlantList(): List<Plant> {
-        return plantList.map { plant ->
-            searchPlantByName(plant)
+    override suspend fun loadPlantList(): List<Plant?> {
+        return plantNameList.map { plantName ->
+            searchPlantByName(plantName)
         }
     }
 
-    override suspend fun searchPlantByName(plant: Plant): Plant {
+    override suspend fun searchPlantByName(plantName: String): Plant? {
         return try {
-            val unsplashImage = unsplashApi.searchPlantImageUrl(plant.name)
-            val wikipediaDescription = wikipediaApi.searchPlantDescription(plant.name)
-            plant.copy(
+            val unsplashImage = unsplashApi.searchPlantImageUrl(plantName)
+            val wikipediaDescription = wikipediaApi.searchPlantDescription(plantName)
+            Plant(
+                name = plantName,
                 description = wikipediaDescription.description,
-                imageUrl = unsplashImage.imageUrl
+                growZoneNumber = 3,
+                wateringIntervalInDays = 30,
+                imageUrl = unsplashImage.imageUrl,
+                addedAt = Instant.now(),
+                lastWateredAt = Instant.now()
             )
         } catch (e: Exception) {
             println("Error : ${e.message}")
-            plant
+            null
         }
     }
 }

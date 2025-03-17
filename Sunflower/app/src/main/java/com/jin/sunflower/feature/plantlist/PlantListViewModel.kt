@@ -2,6 +2,7 @@ package com.jin.sunflower.feature.plantlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.jin.sunflower.core.data.repository.PlantRepositoryImpl
 import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
@@ -13,6 +14,7 @@ import com.jin.sunflower.core.model.Plant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class PlantListViewModel(private val getPlantListUseCase: GetPlantListUseCase) : ViewModel() {
 
@@ -20,7 +22,9 @@ class PlantListViewModel(private val getPlantListUseCase: GetPlantListUseCase) :
     val plantList: StateFlow<List<Plant>> = _plantList.asStateFlow()
 
     fun loadPlantList() {
-        // todo 재정의
+        viewModelScope.launch {
+            _plantList.value = getPlantListUseCase()
+        }
     }
 
     companion object Factory : ViewModelProvider.Factory {

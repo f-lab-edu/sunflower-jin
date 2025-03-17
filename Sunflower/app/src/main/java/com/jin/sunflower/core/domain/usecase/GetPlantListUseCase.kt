@@ -5,6 +5,6 @@ import com.jin.sunflower.core.model.Plant
 
 class GetPlantListUseCase(private val plantRepository: PlantRepository) {
     suspend operator fun invoke(): List<Plant> {
-        return plantRepository.loadPlantList()
+        return plantRepository.loadPlantList().filterNotNull()
     }
 }

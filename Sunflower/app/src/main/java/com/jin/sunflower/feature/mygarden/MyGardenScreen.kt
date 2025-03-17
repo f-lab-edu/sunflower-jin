@@ -91,7 +91,6 @@ fun GardenListItemPreview() {
     SunflowerTheme {
         GardenListItem(
             Plant(
-                id = 123,
                 name = "Apple",
                 description = "Apple",
                 growZoneNumber = 2713,
