@@ -14,7 +14,7 @@ class PlantRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPlantList(plant: Plant): Plant {
+    override suspend fun fetchPlantData(plant: Plant): Plant {
         TODO("Not yet implemented")
     }
 }

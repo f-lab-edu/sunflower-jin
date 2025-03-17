@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface UnsplashService {
     @GET("photos/random")
-    suspend fun fetchImageUrl(
+    suspend fun fetchPlantImageUrl(
         @Query("client_id") clientId: String,
         @Query("query") query: String,
         @Query("orientation") orientation: String,

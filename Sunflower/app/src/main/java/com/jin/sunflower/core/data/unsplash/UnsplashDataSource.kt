@@ -4,12 +4,11 @@ import com.jin.sunflower.BuildConfig
 import com.jin.sunflower.core.domain.unsplash.UnsplashService
 
 class UnsplashDataSource(private val apiService: UnsplashService) {
-
-    suspend fun getImageUrl(query: String): String {
+    suspend fun searchPlantImageUrl(keyword: String): String {
         return try {
-            val response = apiService.fetchImageUrl(
+            val response = apiService.fetchPlantImageUrl(
                 clientId = BuildConfig.UNSPLASH_API_KEY,
-                query = query,
+                query = keyword,
                 orientation = "landscape"
             )
             response.urls.regular
