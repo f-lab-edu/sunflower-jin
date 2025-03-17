@@ -1,7 +1,6 @@
 package com.jin.sunflower.core.domain.wikipedia
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.jin.sunflower.core.domain.RetrofitClient
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -13,10 +12,8 @@ interface WikipediaService {
     ): WikipediaResponse
 
     companion object {
-        val wikipediaService: WikipediaService = Retrofit.Builder()
-            .baseUrl("https://en.wikipedia.org/api/rest_v1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(WikipediaService::class.java)
+        val wikipediaService: WikipediaService = RetrofitClient.createService(
+            "https://en.wikipedia.org/api/rest_v1/", WikipediaService::class.java
+        )
     }
 }

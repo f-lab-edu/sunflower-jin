@@ -1,7 +1,6 @@
 package com.jin.sunflower.core.domain.unsplash
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.jin.sunflower.core.domain.RetrofitClient
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,10 +13,7 @@ interface UnsplashService {
     ): UnsplashResponse
 
     companion object {
-        val unsplashApi: UnsplashService = Retrofit.Builder()
-            .baseUrl("https://api.unsplash.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UnsplashService::class.java)
+        val unsplashApi: UnsplashService =
+            RetrofitClient.createService("https://api.unsplash.com/", UnsplashService::class.java)
     }
 }
