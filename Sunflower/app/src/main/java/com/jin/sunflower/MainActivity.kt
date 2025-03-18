@@ -5,9 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.feature.Screens
 import com.jin.sunflower.feature.main.MainScreen
 import com.jin.sunflower.feature.mygarden.MyGardenScreen
@@ -31,10 +34,26 @@ class MainActivity : ComponentActivity() {
 fun AppNavigator() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screens.MAIN_SCREEN.route) {
-        composable(Screens.MAIN_SCREEN.route) { MainScreen(navController) }
-        composable(Screens.MY_GARDEN_SCREEN.route) { MyGardenScreen(navController) }
-        composable(Screens.PLANT_LIST_SCREEN.route) { PlantListScreen(navController) }
-        composable(Screens.PLANT_DETAIL_SCREEN.route) { PlantDetailScreen(navController) }
+    NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
+        composable(Screens.MainScreen.route) { MainScreen(navController) }
+        composable(Screens.MyGardenScreen.route) { MyGardenScreen(navController) }
+        composable(Screens.PlantListScreen.route) {
+            PlantListScreen(
+                navController,
+                navController::goToPlantDetailView
+            )
+        }
+        composable(Screens.PlantDetailScreen.route) {
+            val plant = remember { navController.previousBackStackEntry?.savedStateHandle?.get<Plant>("plant") } ?: return@composable
+            PlantDetailScreen(navController, plant)
+        }
     }
+}
+
+fun NavController.goToPlantDetailView(plant: Plant) {
+    this.currentBackStackEntry?.savedStateHandle?.set(
+        key = "plant",
+        value = plant
+    )
+    this.navigate(Screens.PlantDetailScreen.route)
 }

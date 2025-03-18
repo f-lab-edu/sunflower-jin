@@ -1,5 +1,6 @@
 package com.jin.sunflower.feature.plantlist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +34,7 @@ import java.time.Instant
 @Composable
 fun PlantListScreen(
     navController: NavController,
+    onItemClick: (Plant) -> Unit,
     viewModel: PlantListViewModel = viewModel(factory = PlantListViewModel.Factory)
 ) {
     val plantList by viewModel.plantList.collectAsState()
@@ -45,7 +48,7 @@ fun PlantListScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             items(plantList) { plant ->
-                PlantListItem(plant)
+                PlantListItem(plant) { onItemClick(it) }
             }
         }
     }
@@ -53,25 +56,30 @@ fun PlantListScreen(
 }
 
 @Composable
-fun PlantListItem(plant: Plant) {
-    Column(
-        modifier = Modifier.padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+fun PlantListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(16.dp)
+            .clickable(onClick = { onItemClick(plant) }),
     ) {
-        AsyncImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp),
-            model = plant.imageUrl,
-            contentDescription = "plant image",
-            contentScale = ContentScale.Crop
-        )
-        Text(
-            modifier = Modifier.padding(vertical = 10.dp),
-            text = plant.name,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                model = plant.imageUrl,
+                contentDescription = "${plant.name} image",
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                modifier = Modifier.padding(vertical = 10.dp),
+                text = plant.name,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
@@ -80,7 +88,7 @@ fun PlantListItem(plant: Plant) {
 @Composable
 fun PlantListScreenPreview() {
     SunflowerTheme {
-        PlantListScreen(rememberNavController())
+        PlantListScreen(rememberNavController(), {})
     }
 }
 
@@ -97,7 +105,8 @@ fun PlantListItemPreview() {
                 imageUrl = "Apple image url",
                 addedAt = Instant.now(),
                 lastWateredAt = Instant.now(),
-            )
+            ),
+            {}
         )
     }
 }

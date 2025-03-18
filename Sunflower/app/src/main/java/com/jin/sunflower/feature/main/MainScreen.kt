@@ -20,19 +20,19 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = viewMode
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Row(modifier = Modifier.padding(innerPadding)) {
             Button(onClick = {
-                navController.navigate(Screens.MY_GARDEN_SCREEN.route)
+                navController.navigate(Screens.MyGardenScreen.route)
             }) {
                 Text("My garden")
             }
 
             Button(onClick = {
-                navController.navigate(Screens.PLANT_LIST_SCREEN.route)
+                navController.navigate(Screens.PlantListScreen.route)
             }) {
                 Text("Plant list")
             }
 
             Button(onClick = {
-                navController.navigate(Screens.PLANT_DETAIL_SCREEN.route)
+                navController.navigate(Screens.PlantDetailScreen.route)
             }) {
                 Text("Plant Detail")
             }

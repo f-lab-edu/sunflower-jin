@@ -10,8 +10,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
@@ -21,11 +19,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
+import java.time.Instant
 
 @Composable
-fun PlantDetailScreen(navController: NavController, viewModel: PlantDetailViewModel = viewModel()) {
-    val plantDetail by viewModel.plantDetail.collectAsState()
+fun PlantDetailScreen(
+    navController: NavController,
+    plantDetail: Plant,
+    viewModel: PlantDetailViewModel = viewModel()
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,6 +80,16 @@ fun PlantDetailScreen(navController: NavController, viewModel: PlantDetailViewMo
 @Composable
 fun PlantDetailScreenPreview() {
     SunflowerTheme {
-        PlantDetailScreen(rememberNavController())
+        PlantDetailScreen(
+            rememberNavController(), Plant(
+                name = "Colleen Chambers",
+                description = "placerat",
+                growZoneNumber = 1441,
+                wateringIntervalInDays = 4274,
+                imageUrl = "https://www.google.com/#q=inciderint",
+                addedAt = Instant.now(),
+                lastWateredAt = Instant.now()
+            )
+        )
     }
 }
