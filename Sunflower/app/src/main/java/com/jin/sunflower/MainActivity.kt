@@ -54,7 +54,13 @@ fun AppNavigator(
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
-        composable(Screens.MainScreen.route) { MainScreen(navController) }
+        composable(Screens.MainScreen.route) {
+            MainScreen(
+                navController,
+                localPlantDataSource,
+                localGardenDataSource
+            )
+        }
         composable(Screens.MyGardenScreen.route) {
             MyGardenScreen(navController, navController::goToPlantDetailView, localGardenDataSource)
         }

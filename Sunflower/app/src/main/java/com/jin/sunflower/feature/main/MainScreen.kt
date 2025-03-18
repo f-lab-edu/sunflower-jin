@@ -1,40 +1,84 @@
 package com.jin.sunflower.feature.main
 
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.jin.sunflower.feature.Screens
+import com.jin.sunflower.core.data.local.InMemoryLocalGardenDataSource
+import com.jin.sunflower.core.data.local.InMemoryLocalPlantDataSource
+import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
+import com.jin.sunflower.core.data.unsplash.UnsplashService
+import com.jin.sunflower.core.data.wikipedia.WikipediaDataSource
+import com.jin.sunflower.core.data.wikipedia.WikipediaService
+import com.jin.sunflower.feature.mygarden.MyGardenScreen
+import com.jin.sunflower.feature.plantlist.PlantListScreen
+import com.jin.sunflower.goToPlantDetailView
 import com.jin.sunflower.ui.theme.SunflowerTheme
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavController, viewModel: MainViewModel = viewModel()) {
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Row(modifier = Modifier.padding(innerPadding)) {
-            Button(onClick = {
-                navController.navigate(Screens.MyGardenScreen.route)
-            }) {
-                Text("My garden")
+fun MainScreen(
+    navController: NavController,
+    localPlantDataSource: InMemoryLocalPlantDataSource,
+    localGardenDataSource: InMemoryLocalGardenDataSource,
+    viewModel: MainViewModel = viewModel()
+) {
+    val pagerState = rememberPagerState { TabMenu.entries.size }
+    val coroutineScope = rememberCoroutineScope()
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Sunflower",
+                        maxLines = 1,
+                    )
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            TabRow(
+                selectedTabIndex = pagerState.currentPage
+            ) {
+                TabMenu.entries.forEachIndexed { index, tabMenu ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
+                        text = { Text(text = tabMenu.title) }
+                    )
+                }
             }
 
-            Button(onClick = {
-                navController.navigate(Screens.PlantListScreen.route)
-            }) {
-                Text("Plant list")
-            }
+            HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
+                when (TabMenu.entries[page]) {
+                    TabMenu.MY_GARDEN -> MyGardenScreen(
+                        navController = navController,
+                        onItemClick = { navController.goToPlantDetailView(it) },
+                        localDataSource = localGardenDataSource
+                    )
 
-            Button(onClick = {
-                navController.navigate(Screens.PlantDetailScreen.route)
-            }) {
-                Text("Plant Detail")
+                    else -> PlantListScreen(
+                        navController = navController,
+                        localDataSource = localPlantDataSource,
+                        onItemClick = { navController.goToPlantDetailView(it) }
+                    )
+                }
             }
         }
     }
@@ -44,6 +88,18 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = viewMode
 @Composable
 fun MainScreenPreview() {
     SunflowerTheme {
-        MainScreen(rememberNavController())
+        MainScreen(
+            rememberNavController(),
+            localPlantDataSource = InMemoryLocalPlantDataSource(
+                unsplashApi = UnsplashDataSource(apiService = UnsplashService.unsplashApi),
+                wikipediaApi = WikipediaDataSource(apiService = WikipediaService.wikipediaService)
+            ),
+            localGardenDataSource = InMemoryLocalGardenDataSource()
+        )
     }
+}
+
+
+enum class TabMenu(val title: String) {
+    MY_GARDEN("myGarden"), PLANT_LIST("plantList")
 }
