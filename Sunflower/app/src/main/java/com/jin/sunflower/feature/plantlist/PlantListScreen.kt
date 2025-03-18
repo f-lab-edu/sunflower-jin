@@ -27,6 +27,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.jin.sunflower.core.data.local.InMemoryLocalPlantDataSource
+import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
+import com.jin.sunflower.core.data.unsplash.UnsplashService
+import com.jin.sunflower.core.data.wikipedia.WikipediaDataSource
+import com.jin.sunflower.core.data.wikipedia.WikipediaService
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
 import java.time.Instant
@@ -34,8 +39,13 @@ import java.time.Instant
 @Composable
 fun PlantListScreen(
     navController: NavController,
+    localDataSource: InMemoryLocalPlantDataSource,
     onItemClick: (Plant) -> Unit,
-    viewModel: PlantListViewModel = viewModel(factory = PlantListViewModel.Factory)
+    viewModel: PlantListViewModel = viewModel(
+        factory = PlantListViewModel.createFactory(
+            localDataSource
+        )
+    )
 ) {
     val plantList by viewModel.plantList.collectAsState()
 
@@ -88,7 +98,14 @@ fun PlantListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
 @Composable
 fun PlantListScreenPreview() {
     SunflowerTheme {
-        PlantListScreen(rememberNavController(), {})
+        PlantListScreen(
+            navController = rememberNavController(),
+            localDataSource = InMemoryLocalPlantDataSource(
+                UnsplashDataSource(UnsplashService.unsplashApi),
+                WikipediaDataSource(WikipediaService.wikipediaService)
+            ),
+            onItemClick = {}
+        )
     }
 }
 
