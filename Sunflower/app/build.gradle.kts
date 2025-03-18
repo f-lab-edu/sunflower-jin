@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 
@@ -24,7 +25,7 @@ android {
         val localProperties = Properties().apply {
             load(rootProject.file("local.properties").inputStream())
         }
-        
+
         val unsplashApiKey: String = localProperties.getProperty("UNSPLASH_API_KEY", "")
         defaultConfig {
             buildConfigField("String", "UNSPLASH_API_KEY", "\"$unsplashApiKey\"")
