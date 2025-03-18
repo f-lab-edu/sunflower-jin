@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jin.sunflower.core.data.local.InMemoryLocalGardenDataSource
 import com.jin.sunflower.core.data.local.InMemoryLocalPlantDataSource
 import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
 import com.jin.sunflower.core.data.unsplash.UnsplashService
@@ -30,26 +31,32 @@ class MainActivity : ComponentActivity() {
             WikipediaDataSource(WikipediaService.wikipediaService)
         )
     }
+    private val localGardenDataSource: InMemoryLocalGardenDataSource by lazy {
+        InMemoryLocalGardenDataSource()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SunflowerTheme {
-                AppNavigator(localPlantDataSource)
+                AppNavigator(localPlantDataSource, localGardenDataSource)
             }
         }
     }
 }
 
 @Composable
-fun AppNavigator(localPlantDataSource: InMemoryLocalPlantDataSource) {
+fun AppNavigator(
+    localPlantDataSource: InMemoryLocalPlantDataSource,
+    localGardenDataSource: InMemoryLocalGardenDataSource
+) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
         composable(Screens.MainScreen.route) { MainScreen(navController) }
         composable(Screens.MyGardenScreen.route) {
-            MyGardenScreen(navController)
+            MyGardenScreen(navController, navController::goToPlantDetailView, localGardenDataSource)
         }
         composable(Screens.PlantListScreen.route) {
             PlantListScreen(
@@ -60,7 +67,7 @@ fun AppNavigator(localPlantDataSource: InMemoryLocalPlantDataSource) {
             val plant = remember {
                 navController.previousBackStackEntry?.savedStateHandle?.get<Plant>("plant")
             } ?: return@composable
-            PlantDetailScreen(navController, plant)
+            PlantDetailScreen(navController, plant, localGardenDataSource)
         }
     }
 }
