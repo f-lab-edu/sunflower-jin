@@ -66,23 +66,20 @@ fun GardenListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             .clickable(onClick = { onItemClick(plant) }),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.elevatedCardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFd8e7cb),
+        )
     ) {
         Column(
-//            modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // ✅ 식물 이미지
             AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
-//                    .clip(RoundedCornerShape(8.dp))
-                , // ✅ 이미지 모서리를 둥글게
+                    .height(120.dp),
                 model = plant.imageUrl,
                 contentDescription = "plant Image",
                 contentScale = ContentScale.Crop
@@ -90,7 +87,6 @@ fun GardenListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
 
             Spacer(Modifier.height(16.dp))
 
-            // ✅ 식물 이름
             Text(
                 text = plant.name,
                 fontSize = 20.sp,
@@ -104,13 +100,14 @@ fun GardenListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
             Text(
                 text = "Planted",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Gray
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
             Text(
                 text = plant.addedAt.formatAsDate(),
                 fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                color = Color.DarkGray
             )
 
             Spacer(Modifier.height(12.dp))
@@ -119,19 +116,20 @@ fun GardenListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
             Text(
                 text = "Last Watered",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Gray
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
             Text(
                 text = plant.lastWateredAt.formatAsDate(),
                 fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                color = Color.DarkGray
             )
             Text(
                 text = "Water in ${plant.wateringIntervalInDays} days.",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Red
+                fontWeight = FontWeight.SemiBold,
+                color = Color.DarkGray
             )
 
             Spacer(Modifier.height(16.dp))

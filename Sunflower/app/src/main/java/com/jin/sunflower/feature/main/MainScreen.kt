@@ -5,8 +5,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Eco
+import androidx.compose.material.icons.rounded.LocalFlorist
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -14,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -46,7 +52,7 @@ fun MainScreen(
                 title = {
                     Text(
                         "Sunflower",
-                        maxLines = 1,
+                        style = MaterialTheme.typography.headlineMedium,
                     )
                 }
             )
@@ -60,7 +66,13 @@ fun MainScreen(
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
-                        text = { Text(text = tabMenu.title) }
+                        text = { Text(text = tabMenu.title) },
+                        icon = {
+                            Icon(
+                                imageVector = tabMenu.icon,
+                                contentDescription = tabMenu.title
+                            )
+                        }
                     )
                 }
             }
@@ -99,7 +111,7 @@ fun MainScreenPreview() {
     }
 }
 
-
-enum class TabMenu(val title: String) {
-    MY_GARDEN("myGarden"), PLANT_LIST("plantList")
+enum class TabMenu(val title: String, val icon: ImageVector) {
+    MY_GARDEN("My Garden", Icons.Rounded.LocalFlorist),
+    PLANT_LIST("Plant List", Icons.Rounded.Eco)
 }
