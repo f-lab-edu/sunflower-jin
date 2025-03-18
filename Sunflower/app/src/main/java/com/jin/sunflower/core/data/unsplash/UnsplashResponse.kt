@@ -1,4 +1,4 @@
-package com.jin.sunflower.core.model
+package com.jin.sunflower.core.data.unsplash
 
 import com.google.gson.annotations.SerializedName
 

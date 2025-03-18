@@ -3,7 +3,6 @@ package com.jin.sunflower.core.model
 import java.time.Instant
 
 data class Plant(
-    val id: Int,
     val name: String,
     val description: String,
     val growZoneNumber: Int,
