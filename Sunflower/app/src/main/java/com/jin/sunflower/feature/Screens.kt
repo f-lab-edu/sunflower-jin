@@ -1,8 +1,8 @@
 package com.jin.sunflower.feature
 
-sealed class Screens(val route: String) {
-    object MainScreen : Screens("mainScreen")
-    object MyGardenScreen : Screens("myGardenScreen")
-    object PlantListScreen : Screens("plantListScreen")
-    object PlantDetailScreen : Screens("plantDetailScreen")
+enum class Screens(val route: String) {
+    MAIN_SCREEN("mainScreen"),
+    MY_GARDEN_SCREEN("myGardenScreen"),
+    PLANT_LIST_SCREEN("plantListScreen"),
+    PLANT_DETAIL_SCREEN("plantDetailScreen"),
 }

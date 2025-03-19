@@ -53,23 +53,23 @@ fun AppNavigator(
 ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
-        composable(Screens.MainScreen.route) {
+    NavHost(navController = navController, startDestination = Screens.MAIN_SCREEN.route) {
+        composable(Screens.MAIN_SCREEN.route) {
             MainScreen(
                 navController,
                 localPlantDataSource,
                 localGardenDataSource
             )
         }
-        composable(Screens.MyGardenScreen.route) {
+        composable(Screens.MY_GARDEN_SCREEN.route) {
             MyGardenScreen(navController, navController::goToPlantDetailView, localGardenDataSource)
         }
-        composable(Screens.PlantListScreen.route) {
+        composable(Screens.PLANT_LIST_SCREEN.route) {
             PlantListScreen(
                 navController, localPlantDataSource, navController::goToPlantDetailView
             )
         }
-        composable(Screens.PlantDetailScreen.route) {
+        composable(Screens.PLANT_DETAIL_SCREEN.route) {
             val plant = remember {
                 navController.previousBackStackEntry?.savedStateHandle?.get<Plant>("plant")
             } ?: return@composable
@@ -80,5 +80,5 @@ fun AppNavigator(
 
 fun NavController.goToPlantDetailView(plant: Plant) {
     this.currentBackStackEntry?.savedStateHandle?.set(key = "plant", value = plant)
-    this.navigate(Screens.PlantDetailScreen.route)
+    this.navigate(Screens.PLANT_DETAIL_SCREEN.route)
 }
