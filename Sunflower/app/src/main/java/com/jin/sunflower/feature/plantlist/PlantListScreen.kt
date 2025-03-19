@@ -26,15 +26,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.jin.sunflower.core.data.local.InMemoryLocalPlantDataSource
+import com.jin.sunflower.core.data.repository.PlantRepositoryImpl
 import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
 import com.jin.sunflower.core.data.unsplash.UnsplashService
 import com.jin.sunflower.core.data.wikipedia.WikipediaDataSource
 import com.jin.sunflower.core.data.wikipedia.WikipediaService
+import com.jin.sunflower.core.domain.usecase.GetPlantListUseCase
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
 import java.time.Instant
@@ -42,19 +43,11 @@ import java.time.Instant
 @Composable
 fun PlantListScreen(
     navController: NavController,
-    localDataSource: InMemoryLocalPlantDataSource,
-    viewModel: PlantListViewModel = viewModel(
-        factory = PlantListViewModel.createFactory(
-            localDataSource
-        )
-    ),
+    viewModel: PlantListViewModel,
     onItemClick: (Plant) -> Unit
 ) {
     val plantList by viewModel.plantList.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.loadPlantList()
-    }
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -106,12 +99,18 @@ fun PlantListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
 fun PlantListScreenPreview() {
     SunflowerTheme {
         PlantListScreen(
-            navController = rememberNavController(),
-            localDataSource = InMemoryLocalPlantDataSource(
-                UnsplashDataSource(UnsplashService.unsplashApi),
-                WikipediaDataSource(WikipediaService.wikipediaService)
+            rememberNavController(),
+            PlantListViewModel(
+                GetPlantListUseCase(
+                    PlantRepositoryImpl(
+                        InMemoryLocalPlantDataSource(
+                            UnsplashDataSource(UnsplashService.unsplashApi),
+                            WikipediaDataSource(WikipediaService.wikipediaService)
+                        )
+                    )
+                )
             ),
-            onItemClick = {}
+            {}
         )
     }
 }

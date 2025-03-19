@@ -26,11 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.jin.sunflower.core.data.local.InMemoryLocalGardenDataSource
+import com.jin.sunflower.core.data.repository.GardenRepositoryImpl
+import com.jin.sunflower.core.domain.usecase.GetMyGardenListUseCase
 import com.jin.sunflower.core.extensions.formatAsDate
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
@@ -39,12 +40,7 @@ import java.time.Instant
 @Composable
 fun MyGardenScreen(
     navController: NavController,
-    localDataSource: InMemoryLocalGardenDataSource,
-    viewModel: MyGardenViewModel = viewModel(
-        factory = MyGardenViewModel.createFactory(
-            localDataSource
-        )
-    ),
+    viewModel: MyGardenViewModel,
     onItemClick: (Plant) -> Unit,
 ) {
     val myGardenList by viewModel.myGardenList.collectAsState()
@@ -141,7 +137,17 @@ fun GardenListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
 @Composable
 fun MyGardenScreenPreview() {
     SunflowerTheme {
-        MyGardenScreen(rememberNavController(), InMemoryLocalGardenDataSource(), onItemClick = {})
+        MyGardenScreen(
+            rememberNavController(),
+            MyGardenViewModel(
+                GetMyGardenListUseCase(
+                    GardenRepositoryImpl(
+                        InMemoryLocalGardenDataSource()
+                    )
+                )
+            ),
+            onItemClick = {}
+        )
     }
 }
 

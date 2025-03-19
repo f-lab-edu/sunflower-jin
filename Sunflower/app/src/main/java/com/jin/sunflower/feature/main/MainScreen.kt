@@ -21,18 +21,23 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.jin.sunflower.core.data.local.InMemoryLocalGardenDataSource
 import com.jin.sunflower.core.data.local.InMemoryLocalPlantDataSource
+import com.jin.sunflower.core.data.repository.GardenRepositoryImpl
+import com.jin.sunflower.core.data.repository.PlantRepositoryImpl
 import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
 import com.jin.sunflower.core.data.unsplash.UnsplashService
 import com.jin.sunflower.core.data.wikipedia.WikipediaDataSource
 import com.jin.sunflower.core.data.wikipedia.WikipediaService
+import com.jin.sunflower.core.domain.usecase.GetMyGardenListUseCase
+import com.jin.sunflower.core.domain.usecase.GetPlantListUseCase
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.feature.mygarden.MyGardenScreen
+import com.jin.sunflower.feature.mygarden.MyGardenViewModel
 import com.jin.sunflower.feature.plantlist.PlantListScreen
+import com.jin.sunflower.feature.plantlist.PlantListViewModel
 import com.jin.sunflower.ui.theme.SunflowerTheme
 import kotlinx.coroutines.launch
 
@@ -40,10 +45,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     navController: NavController,
-    localPlantDataSource: InMemoryLocalPlantDataSource,
-    localGardenDataSource: InMemoryLocalGardenDataSource,
-    viewModel: MainViewModel = viewModel(),
-    onItemClick:(Plant) -> Unit
+    myGardenViewModel: MyGardenViewModel,
+    plantListViewModel: PlantListViewModel,
+    onItemClick: (Plant) -> Unit
 ) {
     val pagerState = rememberPagerState { TabMenu.entries.size }
     val coroutineScope = rememberCoroutineScope()
@@ -81,15 +85,15 @@ fun MainScreen(
             HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
                 when (TabMenu.entries[page]) {
                     TabMenu.MY_GARDEN -> MyGardenScreen(
-                        navController = navController,
-                        localDataSource = localGardenDataSource,
-                        onItemClick = onItemClick,
+                        navController,
+                        myGardenViewModel,
+                        onItemClick,
                     )
 
                     else -> PlantListScreen(
-                        navController = navController,
-                        localDataSource = localPlantDataSource,
-                        onItemClick = onItemClick
+                        navController,
+                        plantListViewModel,
+                        onItemClick
                     )
                 }
             }
@@ -103,11 +107,23 @@ fun MainScreenPreview() {
     SunflowerTheme {
         MainScreen(
             rememberNavController(),
-            localPlantDataSource = InMemoryLocalPlantDataSource(
-                unsplashApi = UnsplashDataSource(apiService = UnsplashService.unsplashApi),
-                wikipediaApi = WikipediaDataSource(apiService = WikipediaService.wikipediaService)
+            MyGardenViewModel(
+                GetMyGardenListUseCase(
+                    GardenRepositoryImpl(
+                        InMemoryLocalGardenDataSource()
+                    )
+                )
             ),
-            localGardenDataSource = InMemoryLocalGardenDataSource(),
+            PlantListViewModel(
+                GetPlantListUseCase(
+                    PlantRepositoryImpl(
+                        InMemoryLocalPlantDataSource(
+                            UnsplashDataSource(UnsplashService.unsplashApi),
+                            WikipediaDataSource(WikipediaService.wikipediaService)
+                        )
+                    )
+                )
+            ),
             onItemClick = {}
         )
     }

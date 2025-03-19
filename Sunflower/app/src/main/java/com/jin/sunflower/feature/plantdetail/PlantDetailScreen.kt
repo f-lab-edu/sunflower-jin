@@ -17,7 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -29,16 +29,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.jin.sunflower.core.data.local.InMemoryLocalGardenDataSource
+import com.jin.sunflower.core.data.repository.GardenRepositoryImpl
+import com.jin.sunflower.core.domain.usecase.SaveMyGardenListUseCase
 import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.ui.theme.SunflowerTheme
 import java.time.Instant
@@ -47,12 +47,7 @@ import java.time.Instant
 fun PlantDetailScreen(
     navController: NavController,
     plantDetail: Plant,
-    localDataSource: InMemoryLocalGardenDataSource,
-    viewModel: PlantDetailViewModel = viewModel(
-        factory = PlantDetailViewModel.createFactory(
-            localDataSource
-        )
-    )
+    viewModel: PlantDetailViewModel
 ) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
@@ -87,7 +82,7 @@ fun PlantDetailScreen(
                                 .padding(6.dp)
                         ) {
                             Icon(
-                                imageVector = Icons.Default.ArrowBack,
+                                imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "뒤로가기",
                                 tint = Color.Black,
                                 modifier = Modifier
@@ -178,7 +173,13 @@ fun PlantDetailScreenPreview() {
                 addedAt = Instant.now(),
                 lastWateredAt = Instant.now()
             ),
-            InMemoryLocalGardenDataSource()
+            PlantDetailViewModel(
+                SaveMyGardenListUseCase(
+                    GardenRepositoryImpl(
+                        InMemoryLocalGardenDataSource()
+                    )
+                )
+            )
         )
     }
 }
