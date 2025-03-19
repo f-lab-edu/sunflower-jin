@@ -33,19 +33,15 @@ import com.jin.sunflower.feature.plantlist.PlantListViewModel
 import com.jin.sunflower.ui.theme.SunflowerTheme
 
 class MainActivity : ComponentActivity() {
-    private val localPlantDataSource: InMemoryLocalPlantDataSource by lazy {
-        InMemoryLocalPlantDataSource(
-            UnsplashDataSource(UnsplashService.unsplashApi),
-            WikipediaDataSource(WikipediaService.wikipediaService)
-        )
-    }
-    private val localGardenDataSource: InMemoryLocalGardenDataSource by lazy {
-        InMemoryLocalGardenDataSource()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val localPlantDataSource = InMemoryLocalPlantDataSource(
+            UnsplashDataSource(UnsplashService.unsplashApi),
+            WikipediaDataSource(WikipediaService.wikipediaService)
+        )
+        val localGardenDataSource = InMemoryLocalGardenDataSource()
         setContent {
             SunflowerTheme {
                 AppNavigator(localPlantDataSource, localGardenDataSource)
@@ -60,10 +56,13 @@ fun AppNavigator(
     localGardenDataSource: InMemoryLocalGardenDataSource
 ) {
     val navController = rememberNavController()
-    val myGardenViewModel =
-        MyGardenViewModel(GetMyGardenListUseCase(GardenRepositoryImpl(localGardenDataSource)))
-    val plantListViewModel =
-        PlantListViewModel(GetPlantListUseCase(PlantRepositoryImpl(localPlantDataSource)))
+
+    val gardenRepository = GardenRepositoryImpl(localGardenDataSource)
+    val plantRepository = PlantRepositoryImpl(localPlantDataSource)
+
+    val myGardenViewModel = MyGardenViewModel(GetMyGardenListUseCase(gardenRepository))
+    val plantListViewModel = PlantListViewModel(GetPlantListUseCase(plantRepository))
+    val plantDetailViewModel = PlantDetailViewModel(SaveMyGardenListUseCase(gardenRepository))
 
     NavHost(navController = navController, startDestination = Screens.MAIN_SCREEN.route) {
         composable(Screens.MAIN_SCREEN.route) {
@@ -89,11 +88,6 @@ fun AppNavigator(
             )
         }
         composable(Screens.PLANT_DETAIL_SCREEN.route) {
-            val plantDetailViewModel = PlantDetailViewModel(
-                SaveMyGardenListUseCase(
-                    GardenRepositoryImpl(localGardenDataSource)
-                )
-            )
             val plant = remember {
                 navController.previousBackStackEntry?.savedStateHandle?.get<Plant>("plant")
             } ?: return@composable
