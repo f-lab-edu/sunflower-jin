@@ -39,13 +39,13 @@ import java.time.Instant
 @Composable
 fun MyGardenScreen(
     navController: NavController,
-    onItemClick: (Plant) -> Unit,
     localDataSource: InMemoryLocalGardenDataSource,
     viewModel: MyGardenViewModel = viewModel(
         factory = MyGardenViewModel.createFactory(
             localDataSource
         )
-    )
+    ),
+    onItemClick: (Plant) -> Unit,
 ) {
     val myGardenList by viewModel.myGardenList.collectAsState()
 
@@ -141,7 +141,7 @@ fun GardenListItem(plant: Plant, onItemClick: (Plant) -> Unit) {
 @Composable
 fun MyGardenScreenPreview() {
     SunflowerTheme {
-        MyGardenScreen(rememberNavController(), {}, InMemoryLocalGardenDataSource())
+        MyGardenScreen(rememberNavController(), InMemoryLocalGardenDataSource(), onItemClick = {})
     }
 }
 

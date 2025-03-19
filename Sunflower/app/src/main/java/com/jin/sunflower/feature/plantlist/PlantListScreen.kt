@@ -43,12 +43,12 @@ import java.time.Instant
 fun PlantListScreen(
     navController: NavController,
     localDataSource: InMemoryLocalPlantDataSource,
-    onItemClick: (Plant) -> Unit,
     viewModel: PlantListViewModel = viewModel(
         factory = PlantListViewModel.createFactory(
             localDataSource
         )
-    )
+    ),
+    onItemClick: (Plant) -> Unit
 ) {
     val plantList by viewModel.plantList.collectAsState()
 

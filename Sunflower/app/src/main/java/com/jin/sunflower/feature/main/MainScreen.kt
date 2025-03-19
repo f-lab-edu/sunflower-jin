@@ -30,9 +30,9 @@ import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
 import com.jin.sunflower.core.data.unsplash.UnsplashService
 import com.jin.sunflower.core.data.wikipedia.WikipediaDataSource
 import com.jin.sunflower.core.data.wikipedia.WikipediaService
+import com.jin.sunflower.core.model.Plant
 import com.jin.sunflower.feature.mygarden.MyGardenScreen
 import com.jin.sunflower.feature.plantlist.PlantListScreen
-import com.jin.sunflower.goToPlantDetailView
 import com.jin.sunflower.ui.theme.SunflowerTheme
 import kotlinx.coroutines.launch
 
@@ -42,7 +42,8 @@ fun MainScreen(
     navController: NavController,
     localPlantDataSource: InMemoryLocalPlantDataSource,
     localGardenDataSource: InMemoryLocalGardenDataSource,
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel = viewModel(),
+    onItemClick:(Plant) -> Unit
 ) {
     val pagerState = rememberPagerState { TabMenu.entries.size }
     val coroutineScope = rememberCoroutineScope()
@@ -81,14 +82,14 @@ fun MainScreen(
                 when (TabMenu.entries[page]) {
                     TabMenu.MY_GARDEN -> MyGardenScreen(
                         navController = navController,
-                        onItemClick = { navController.goToPlantDetailView(it) },
-                        localDataSource = localGardenDataSource
+                        localDataSource = localGardenDataSource,
+                        onItemClick = onItemClick,
                     )
 
                     else -> PlantListScreen(
                         navController = navController,
                         localDataSource = localPlantDataSource,
-                        onItemClick = { navController.goToPlantDetailView(it) }
+                        onItemClick = onItemClick
                     )
                 }
             }
@@ -106,7 +107,8 @@ fun MainScreenPreview() {
                 unsplashApi = UnsplashDataSource(apiService = UnsplashService.unsplashApi),
                 wikipediaApi = WikipediaDataSource(apiService = WikipediaService.wikipediaService)
             ),
-            localGardenDataSource = InMemoryLocalGardenDataSource()
+            localGardenDataSource = InMemoryLocalGardenDataSource(),
+            onItemClick = {}
         )
     }
 }

@@ -58,15 +58,22 @@ fun AppNavigator(
             MainScreen(
                 navController,
                 localPlantDataSource,
-                localGardenDataSource
+                localGardenDataSource,
+                onItemClick = navController::goToPlantDetailView
             )
         }
         composable(Screens.MY_GARDEN_SCREEN.route) {
-            MyGardenScreen(navController, navController::goToPlantDetailView, localGardenDataSource)
+            MyGardenScreen(
+                navController,
+                localGardenDataSource,
+                onItemClick = navController::goToPlantDetailView
+            )
         }
         composable(Screens.PLANT_LIST_SCREEN.route) {
             PlantListScreen(
-                navController, localPlantDataSource, navController::goToPlantDetailView
+                navController,
+                localPlantDataSource,
+                onItemClick = navController::goToPlantDetailView
             )
         }
         composable(Screens.PLANT_DETAIL_SCREEN.route) {
