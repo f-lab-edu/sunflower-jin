@@ -3,8 +3,6 @@ package com.jin.sunflower.core.data.local
 import com.jin.sunflower.core.data.unsplash.UnsplashDataSource
 import com.jin.sunflower.core.data.wikipedia.WikipediaDataSource
 import com.jin.sunflower.core.model.Plant
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import java.time.Instant
 
 class InMemoryLocalPlantDataSource(
@@ -13,13 +11,9 @@ class InMemoryLocalPlantDataSource(
 ) {
 
     private val plantNameList = listOf("Apple", "Avocado", "Beet", "Eggplant")
-    private val _plantList = MutableStateFlow(emptyList<Plant>())
 
-    suspend fun loadPlantList(): StateFlow<List<Plant>> {
-        if (_plantList.value.isEmpty()) {
-            _plantList.emit(plantNameList.mapNotNull { searchPlantByName(it) })
-        }
-        return _plantList
+    suspend fun loadPlantList(): List<Plant> {
+        return plantNameList.mapNotNull { searchPlantByName(it) }
     }
 
     private suspend fun searchPlantByName(plantName: String): Plant? {

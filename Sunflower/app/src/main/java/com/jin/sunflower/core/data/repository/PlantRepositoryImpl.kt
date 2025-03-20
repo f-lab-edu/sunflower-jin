@@ -9,6 +9,6 @@ class PlantRepositoryImpl(
 ) : PlantRepository {
 
     override suspend fun loadPlantList(): List<Plant> {
-        return localDataSource.loadPlantList().value
+        return localDataSource.loadPlantList()
     }
 }
