@@ -3,8 +3,8 @@ package com.jin.sunflower.core.domain.usecase
 import com.jin.sunflower.core.domain.repository.PlantRepository
 import com.jin.sunflower.core.model.Plant
 
-class GetPlantListUseCase(private val plantRepository: PlantRepository) {
+class GetPlantListUseCase(private val repository: PlantRepository) {
     suspend operator fun invoke(): List<Plant> {
-        return plantRepository.loadPlantList().filterNotNull()
+        return repository.loadPlantList()
     }
 }
