@@ -5,6 +5,6 @@ import com.jin.sunflower.core.model.Plant
 
 class SaveMyGardenListUseCase(private val repository: GardenRepository) {
     suspend operator fun invoke(plant: Plant) {
-        return repository.addedPlantToMyGardenList(plant)
+        return repository.addPlantToMyGarden(plant)
     }
 }

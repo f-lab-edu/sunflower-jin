@@ -116,7 +116,7 @@ fun PlantDetailScreen(
                     containerColor = Color(0xFFB2FF59),
                     contentColor = Color.Black,
                     shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
-                    onClick = { viewModel.addedPlantToMyGarden(plantDetail) }) {
+                    onClick = { viewModel.addPlantToMyGarden(plantDetail) }) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = "추가하기",

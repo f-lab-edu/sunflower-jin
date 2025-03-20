@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 class GardenRepositoryImpl(private val localDataSource: InMemoryLocalGardenDataSource) :
     GardenRepository {
 
-    override suspend fun addedPlantToMyGardenList(plant: Plant) {
-        localDataSource.addedPlantToGarden(plant)
+    override suspend fun addPlantToMyGarden(plant: Plant) {
+        localDataSource.addPlantToGarden(plant)
     }
 
     override fun loadMyGardenList(): Flow<List<Plant>> {

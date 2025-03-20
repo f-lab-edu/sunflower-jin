@@ -10,7 +10,7 @@ class PlantDetailViewModel(
     private val saveMyGardenListUseCase: SaveMyGardenListUseCase
 ) : ViewModel() {
 
-    fun addedPlantToMyGarden(plant: Plant) {
+    fun addPlantToMyGarden(plant: Plant) {
         viewModelScope.launch {
             saveMyGardenListUseCase(plant)
         }

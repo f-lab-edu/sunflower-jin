@@ -10,7 +10,7 @@ class InMemoryLocalGardenDataSource {
 
     private val myGardenList = mutableListOf<Plant>()
 
-    suspend fun addedPlantToGarden(plant: Plant) {
+    suspend fun addPlantToGarden(plant: Plant) {
         myGardenList.add(plant) // list 에 저장하고,
         _myGardenChannel.send(myGardenList.toList()) // 저장된 list 를 channel 에 알린다.
     }
